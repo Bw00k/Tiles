@@ -10,18 +10,25 @@ import com.yedam.common.Command;
 import com.yedam.notice.service.NoticeService;
 import com.yedam.notice.service.NoticeServiceImpl;
 
-public class NoticeDetail implements Command {
+public class RemoveReply implements Command {
 
 	@Override
 	public String exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String nid = req.getParameter("nid");
-
+	
+		//댓글번호 삭제.
+		String rid = req.getParameter("rid");
+		
 		NoticeService service = new NoticeServiceImpl();
-
-		req.setAttribute("vo", service.getNotice(Integer.parseInt(nid)));
-
-		return "notice/noticeDetail.tiles";
+		String json = "";
+		if(service.removeReply(Integer.parseInt(rid)) > 0) {
+			// {"retCode": "Success"}
+			json = "{\"retCode\": \"Success\"}";
+		}else {
+			//{"retCode": "Fail "}
+			json = "{\"retCode\": \"Fail\"}";
+		}
+		
+		return json + ".json";
 	}
 
 }
