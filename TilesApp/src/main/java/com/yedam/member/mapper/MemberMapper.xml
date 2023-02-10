@@ -9,8 +9,8 @@
 	</select>
 	
 	<insert id="addMember" parameterType="MemberVO">
-		insert into members(member_id, member_pw, member_name, member_phone, responsibility, image)
-		values(#{memberId},#{memberPw},#{memberName}, #{memberPhone}, 'user', #{image})
+		insert into members(member_id, member_pw, member_name, member_phone, responsibility, image, member_addr)
+		values(#{memberId},#{memberPw},#{memberName}, #{memberPhone}, 'user', #{image}, #{memberAddr})
 	</insert>
 	
 	<select id="memberList" resultType="MemberVO">
@@ -21,7 +21,34 @@
 		select * from members where member_id=#{id}
 	</select>
 	
-	<update id="modMember" parameterType="int">
-		update members set member_pw=#{memberPw}, member_name=#{memberName}, member_phone=#{memberPhone},member_addr=#{memberAddr}  WHERE notice_id = #{id}
+	<update id="updateMember" parameterType="MemberVO">
+		update members
+		<set>
+		<if test="image != null">
+			image = #{image},
+		</if>
+		<if test="memberName != null">
+			member_name = #{memberName},
+		</if>
+		<if test="memberPw != null">
+			member_pw = #{memberPw},
+		</if>
+		<if test="memberPhone != null">
+			member_phone = #{memberPhone},
+		</if>
+		<if test="memberAddr != null">
+			member_addr = #{memberAddr},
+		</if>
+		<if test="responsibility != null">
+			responsibility = #{responsibility}
+		</if>
+		</set> 
+		where member_id = #{memberId}
 	</update>
+	
+	<delete id="deleteMember" parameterType="string">
+		delete from members
+		where member_id = #{mid}
+	</delete>
+	
 </mapper>

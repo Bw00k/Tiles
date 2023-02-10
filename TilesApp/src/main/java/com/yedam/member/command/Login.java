@@ -34,7 +34,9 @@ public class Login implements Command {
 			MemberVO mvo = service.getMember(id);
 			session.setAttribute("logName", mvo.getMemberName());
 			session.setAttribute("logId", mvo.getMemberId());
-			session.setAttribute("vo", mvo);
+			session.setAttribute("Auth", mvo.getResponsibility());
+			
+			req.setAttribute("vo", mvo);
 			// 이동할 페이지를 지정.
 			page = "mypage";
 		} else {
